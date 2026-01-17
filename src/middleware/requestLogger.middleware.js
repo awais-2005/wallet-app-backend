@@ -1,9 +1,7 @@
-import { getTimeStamp } from "../utils/getTime.util.js";
+import { getTimeStamp } from "../utils/getTime.js";
 
 const requestLogger = (req, res, next) => {
-    console.log("Method: ", req.method);
-    console.log("Url: ", req.originalUrl);
-    console.log("TimeStamp: ", getTimeStamp());
+    console.log(req.method, req.originalUrl, getTimeStamp());
 
     next();
 };

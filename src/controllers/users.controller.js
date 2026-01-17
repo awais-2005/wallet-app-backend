@@ -1,5 +1,4 @@
-export const getUsers = (req, res) => {
-	res.status(200).json({
-		users: ["Awais", "Ali", "Maaz"],
-	});
-};
+export const getUsers = () =>
+	new Promise((resolve, reject) =>
+		setTimeout(() => reject(new Error("Database connection failed")), 500)
+	);
