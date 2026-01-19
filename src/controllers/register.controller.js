@@ -1,3 +1,3 @@
-export const registerUser = (user) => {
-    return new Promise((resolve) => setTimeout(() => resolve((user.name || "unknown") + " -- Successfully Registered!"), 1000));
-};
+import { User } from "../models/user.model.js";
+
+export const registerUser = async (user) => await User.create(user);

@@ -11,19 +11,16 @@ const userSchema = new mongoose.Schema(
 		},
 		email: {
 			type: String,
-			required: [true, "Please enter email."],
+			required: true,
 			unique: true,
 			lowercase: true,
 			trim: true,
 		},
-		fullname: {
+		fullName: {
 			type: String,
 			required: true,
 			trim: true,
 		},
-        avatar: {
-            type: String, //Cloudinary Url
-        },
 		password: {
 			type: String,
 			required: true,
