@@ -2,7 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { HTTP_STATUS } from "../utils/errorCodes.js";
 
 const authenticate = (req, res, next) => {
-	const apiKey = req.headers["api-key"]
+	const apiKey = req.headers["x-api-key"]
 	if (apiKey && apiKey === process.env.API_KEY) {
 		console.log("Authenticated!");
 		next();

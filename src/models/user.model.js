@@ -2,12 +2,9 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
 	{
-		username: {
+		avatar: {
 			type: String,
-			required: true,
-			unique: true,
-			lowercase: true,
-			trim: true,
+			required: false,
 		},
 		email: {
 			type: String,
@@ -25,6 +22,11 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		refreshToken: {
+			type: String,
+			require: true,
+			unique: true,
+		}
 	},
 	{
 		timestamps: true,

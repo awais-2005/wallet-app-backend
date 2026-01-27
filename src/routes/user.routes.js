@@ -1,16 +1,14 @@
 import { Router } from "express";
-import { authenticate } from "../middleware/authGuard.middleware.js";
-import { getUsers, loginUser, registerUser } from "../controllers/users.controller.js";
+import { getUsers } from "../controllers/users.controller.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { userValidation } from "../middleware/userValidation.middleware.js";
 import { ApiError } from "../utils/ApiError.js";
 import { HTTP_STATUS } from "../utils/errorCodes.js";
+import { User } from "../models/user.model.js";
+import { authorization } from "../middleware/authorization.middleware.js";
 
-const router = Router();
+const userRouter = Router();
 
-router.use(authenticate);
-
-router.get(
+userRouter.get(
 	"/users",
 	asyncHandler(async (req, res, next) => {
 		const users = await getUsers();
@@ -18,33 +16,20 @@ router.get(
 	})
 );
 
-router.post(
-	"/register",
-	userValidation,
-	asyncHandler(async (req, res, next) => {
-		const result = await registerUser(req.body);
-		console.log(result);
-
-		if (result) {
-			res.status(201).json({ message: "Registered successfully." });
-		} else {
-			throw new ApiError(HTTP_STATUS.INTERNAL_ERROR);
+// Why to add next here -- find out reason!
+userRouter.get("/profile", authorization, asyncHandler(async (req, res, next) => {
+	const user = await User.findOne({ email: req.email });
+	
+	if (user) {
+		const data = {
+			email: user.email,
+			fullName: user.fullName,
+			avatar: user.avatar || "",
 		}
-	})
-);
+		res.status(200).json({statusCode: 200, data, message: "Operation successfull."});
+	} else {
+		throw new ApiError(HTTP_STATUS.INTERNAL_ERROR);
+	}
+}));
 
-router.post(
-	"/login",
-	asyncHandler(async (req, res, next) => {
-		const result = await loginUser(req.body);
-		console.log(result);
-		
-		if (result) {
-			res.status(200).json({ statusCode: 200, message: "logged successfully." });
-		} else {
-			throw new ApiError(HTTP_STATUS.INTERNAL_ERROR);
-		}
-	})
-);
-
-export default router;
+export default userRouter;
