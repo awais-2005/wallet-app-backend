@@ -15,7 +15,7 @@ app.use(requestLogger)
 app.use(authenticate);
 
 app.use(healthRoutes);
-app.use("/api", userRouter);
+app.use("/user", userRouter);
 app.use("/auth", authRouter)
 
 app.use(notFound);

@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { HTTP_STATUS } from "../utils/errorCodes.js";
 import { User } from "../models/user.model.js";
 import { authorization } from "../middleware/authorization.middleware.js";
+import { uploadImage } from "../utils/cloudinary.js";
 
 const userRouter = Router();
 
@@ -31,5 +32,14 @@ userRouter.get("/profile", authorization, asyncHandler(async (req, res, next) =>
 		throw new ApiError(HTTP_STATUS.INTERNAL_ERROR);
 	}
 }));
+
+userRouter.post("/avatar", asyncHandler(async (req, res, next) => {
+	const url = await uploadImage("C:\\Users\\AH\\Desktop\\awais.jpg");
+	if(!url) {
+		throw new ApiError(HTTP_STATUS.INTERNAL_ERROR, "Failed to upload image")
+	} else {
+		res.status(200).json({statusCode: 200, url, message: "Image upload successfully." });
+	}
+}))
 
 export default userRouter;
