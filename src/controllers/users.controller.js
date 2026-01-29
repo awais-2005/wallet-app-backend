@@ -1,3 +1,4 @@
+import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { HTTP_STATUS } from "../utils/errorCodes.js";
 
@@ -11,3 +12,9 @@ export const getUsers = () =>
 			500
 		)
 	);
+
+export const saveAvatar = async (email, url) => {
+	const user = await User.findOne({ email });
+	user.avatar = url;
+	await user.save();
+};

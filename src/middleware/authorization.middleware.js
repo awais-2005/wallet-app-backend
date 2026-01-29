@@ -3,8 +3,12 @@ import { HTTP_STATUS } from "../utils/errorCodes.js";
 import jwt from "jsonwebtoken";
 
 export const authorization = (req, res, next) => {
-    
-    const accessToken = req.headers["authorization"].split(" ")[1];
+    let accessToken = null;
+    try {
+        accessToken = req.headers["authorization"].split(" ")[1];
+    } catch (err) {
+        throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Access token is not found.")
+    }
 
     if(!accessToken) {
         throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Access token is not found.");

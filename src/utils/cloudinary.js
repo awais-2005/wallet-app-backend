@@ -1,11 +1,21 @@
-import Cloudinary from "./cloudinary.config";
+import { Cloudinary } from "./cloudinary.config.js";
+import fs from "fs";
 
 export const uploadImage = async (imagePath) => {
-	// https://res.cloudinary.com/dh49op3h5/image/upload/v1769597896/m95pyv8j9k2rt7jrzaj1.jpg
 	try {
 		const res = await Cloudinary.uploader.upload(imagePath);
+		deleteImage(imagePath);
 		return res.url;
 	} catch (err) {
+		deleteImage(imagePath);
 		console.log("ERR: ", err);
 	}
 };
+
+function deleteImage(imagePath) {
+	fs.unlink(imagePath, (err) => {
+		if(err) {
+			console.log(`Could not delete file at ${imagePath}`, err);
+		}
+	});
+}
