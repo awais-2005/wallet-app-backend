@@ -16,7 +16,8 @@ export const registerUser = async (user) => {
 		fullName: user.fullName,
 		password: hashedPassword,
 		refreshToken,
-		avatar: user.avatar || "",
+		avatar: "",
+		transactions: ""
 	});
 
 	// returning a access token.

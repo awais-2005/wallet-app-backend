@@ -10,14 +10,6 @@ import upload from "../middleware/multer.middleware.js";
 
 const userRouter = Router();
 
-userRouter.get(
-	"/users",
-	asyncHandler(async (req, res) => {
-		const users = await getUsers();
-		res.status(200).json({ users });
-	})
-);
-
 // Why to add next here -- find out reason!
 userRouter.get("/profile", authorization, asyncHandler(async (req, res) => {
 	const user = await User.findOne({ email: req.email });
@@ -27,6 +19,7 @@ userRouter.get("/profile", authorization, asyncHandler(async (req, res) => {
 			email: user.email,
 			fullName: user.fullName,
 			avatar: user.avatar || "",
+			transactions: user.transactions || "",
 		}
 		res.status(200).json({statusCode: 200, data, message: "Operation successfull."});
 	} else {

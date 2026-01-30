@@ -24,8 +24,11 @@ const userSchema = new mongoose.Schema(
 		},
 		refreshToken: {
 			type: String,
-			require: true,
+			required: true,
 			unique: true,
+		},
+		transactions: {
+			type: String,
 		}
 	},
 	{
